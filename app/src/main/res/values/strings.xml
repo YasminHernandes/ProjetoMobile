@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ProjetoPresencaAluno</string>
+    <string name="rgm">RGM</string>
+    <string name="password">Senha</string>
+    <string name="datetime">Data e Hora</string>
+    <string name="">Hora</string>
+</resources>
