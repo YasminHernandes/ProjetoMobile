@@ -4,6 +4,9 @@
     <string name="rgm">RGM</string>
     <string name="password">Senha</string>
     <string name="datetime">Data e Hora</string>
+    <string name="title_activity_selecao_disciplina">Map</string>
+    <string name="btnRegisterPresenca">Registrar presença</string>
+    <string name="btnDesistir">Desistir</string>
     <string name="btnConectar">Conectar</string>
     <string name="btnSair">Sair</string>
 </resources>
