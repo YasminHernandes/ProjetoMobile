@@ -104,10 +104,10 @@ public class SelecaoDisciplina extends FragmentActivity {
     }
 
     public boolean localizacaoValidaParaMarcarPresenca() {
-        //Double latitudeUNICID = -23.536286105990403;
-        //Double longitudeUNICID = -46.560337171952156;
-        Double latitudeUNICID = -23.536363333333334;
-        Double longitudeUNICID = -46.56034666666667;
+        Double latitudeUNICID = -23.536286105990403;
+        Double longitudeUNICID = -46.560337171952156;
+        //Double latitudeUNICID = -23.536363333333334;
+        //Double longitudeUNICID = -46.56034666666667;
 
         return Objects.equals(latitude, latitudeUNICID) && Objects.equals(longitude, longitudeUNICID);
     }
@@ -127,8 +127,8 @@ public class SelecaoDisciplina extends FragmentActivity {
         Disciplina disciplina = null;
 
         try {
-            //disciplina = disciplinas.stream().filter(obj -> Objects.equals(obj.getDiaSemana(), diaHoje)).findFirst().get();
-            disciplina = disciplinas.get(1);
+            disciplina = disciplinas.stream().filter(obj -> Objects.equals(obj.getDiaSemana(), diaHoje)).findFirst().get();
+            //disciplina = disciplinas.get(1);
         }catch(Exception e ) {
             Log.i("Tela", "Nao tem aula");
             Toast.makeText(this, "Hoje não tem aula :)", Toast.LENGTH_LONG).show();
