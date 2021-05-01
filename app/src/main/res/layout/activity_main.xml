@@ -29,12 +29,12 @@
         android:text="@string/rgm"
         android:textSize="24sp"
         android:textStyle="bold"
-    />
+        />
 
     <EditText
         android:id="@+id/edtRGM"
         android:layout_width="330dp"
-        android:layout_height="40dp"
+        android:layout_height="80dp"
         android:layout_below="@id/txtRGM"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="35sp"
@@ -50,20 +50,19 @@
         android:layout_marginLeft="35sp"
         android:layout_marginBottom="20sp"
         android:text="@string/password"
-       android:textSize="24sp"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/edtSenha"
         android:layout_width="330dp"
-        android:layout_height="40dp"
+        android:layout_height="80dp"
         android:layout_below="@id/txtSenha"
         android:layout_marginLeft="35sp"
         android:inputType="textPassword"
-        android:text="@string/rgm"
         android:textSize="24sp"
         android:textStyle="bold"
-    />
+        />
 
     <Button
         android:id="@+id/btnConectar"
@@ -101,6 +100,6 @@
         android:text="@string/btnSair"
         android:textColor="#6A30F0"
         android:clickable="true"
-    />
+        />
 
 </RelativeLayout>

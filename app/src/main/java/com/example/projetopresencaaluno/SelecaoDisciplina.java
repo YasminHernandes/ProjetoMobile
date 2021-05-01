@@ -6,11 +6,13 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -50,7 +52,9 @@ public class SelecaoDisciplina extends FragmentActivity {
 
         TextView viewAula = (TextView) findViewById(R.id.viewAula);
         TextView viewLocalizacao = (TextView) findViewById(R.id.viewLocalizacao);
+        TextView txtPresenca = (TextView) findViewById(R.id.txtPresenca);
         Button btnRegistrarPresenca = (Button) findViewById(R.id.btnRegistrarPresenca);
+        Button btnDesistir = (Button) findViewById(R.id.btnDesistir);
 
         TimeZone tz = TimeZone.getTimeZone("America/Sao_Paulo");
         TimeZone.setDefault(tz);
@@ -58,10 +62,10 @@ public class SelecaoDisciplina extends FragmentActivity {
 
         List<Disciplina> disciplinas = new ArrayList<>();
         disciplinas.add(new Disciplina("SEM DISCIPLINA HOJE", 0, 0, 0));
-        disciplinas.add(new Disciplina("FUNDAMENTOS DE INTELIGÊNCIA ARTIFICIAL", 19*60 + 10, 21*60 + 50, 2));
+        disciplinas.add(new Disciplina("LINGUAGENS FORMAIS E AUTÔMATOS", 19*60 + 10, 21*60 + 50, 2));
         disciplinas.add(new Disciplina("TRABALHO DE GRADUAÇÃO INTERDISCIPLINAR I", 19*60 + 10, 21*60 + 50, 3));
-        disciplinas.add(new Disciplina("LINGUAGENS FORMAIS E AUTÔMATOS", 19*60 + 10, 21*60 + 50, 4));
-        disciplinas.add(new Disciplina("PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS", 19*60 + 10, 21*60 + 50, 5));
+        disciplinas.add(new Disciplina("PROGRAMAÇÃO PARA DISPOSITIVOS MÓVEIS", 19*60 + 10, 21*60 + 50, 4));
+        disciplinas.add(new Disciplina("FUNDAMENTOS DE INTELIGÊNCIA ARTIFICIAL", 19*60 + 10, 21*60 + 50, 5));
 
         verificaEBuscaLocalizacao(viewLocalizacao);
 
@@ -72,11 +76,21 @@ public class SelecaoDisciplina extends FragmentActivity {
 
         viewAula.setText("Aula de Hoje (" + dias[ca.get(Calendar.DAY_OF_WEEK) - 1] + ") - " + new SimpleDateFormat("dd/MM/yyyy").format(ca.getTime()));
 
-
+        btnDesistir.setOnClickListener(s -> {
+            finish();
+        });
         btnRegistrarPresenca.setOnClickListener(s -> {
             if(localizacaoValidaParaMarcarPresenca()) {
                 if(horarioValidoParaMarcarPresenca(ca, buscaDisciplinaHoje(disciplinas, ca.get(Calendar.DAY_OF_WEEK)))) {
                     Log.i("Teste", "Marcou");
+                    btnRegistrarPresenca.setVisibility(View.INVISIBLE);
+
+                    txtPresenca.setText("Presença registra em ".concat(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())));
+
+                    btnDesistir.setBackgroundResource(R.drawable.buttonshapebackground);
+                    btnDesistir.setTextColor(Color.parseColor("#ffffff"));
+                    btnDesistir.setText("Sair");
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Não está dentro do horario da disciplina",Toast.LENGTH_LONG).show();
                     Log.i("Teste", "Não está dentro do horario da disciplina");
@@ -84,13 +98,16 @@ public class SelecaoDisciplina extends FragmentActivity {
             } else {
                 Toast.makeText(getApplicationContext(), "Você nao está no lugar certo",Toast.LENGTH_LONG).show();
                 Log.i("Teste", "Você nao está no lugar certo");
+
             }
         });
     }
 
     public boolean localizacaoValidaParaMarcarPresenca() {
-        Double latitudeUNICID = -23.536286105990403;
-        Double longitudeUNICID = -46.560337171952156;
+        //Double latitudeUNICID = -23.536286105990403;
+        //Double longitudeUNICID = -46.560337171952156;
+        Double latitudeUNICID = -23.536363333333334;
+        Double longitudeUNICID = -46.56034666666667;
 
         return Objects.equals(latitude, latitudeUNICID) && Objects.equals(longitude, longitudeUNICID);
     }
@@ -109,11 +126,20 @@ public class SelecaoDisciplina extends FragmentActivity {
     public Disciplina buscaDisciplinaHoje(List<Disciplina> disciplinas, Integer diaHoje) {
         Disciplina disciplina = null;
 
-       try {
-           disciplina = disciplinas.stream().filter(obj -> Objects.equals(obj.getDiaSemana(), diaHoje)).findFirst().get();
-       }catch(Exception e ) {
-           Log.i("App", "Deu erro");
-       }
+        try {
+            //disciplina = disciplinas.stream().filter(obj -> Objects.equals(obj.getDiaSemana(), diaHoje)).findFirst().get();
+            disciplina = disciplinas.get(1);
+        }catch(Exception e ) {
+            Log.i("Tela", "Nao tem aula");
+            Toast.makeText(this, "Hoje não tem aula :)", Toast.LENGTH_LONG).show();
+            disciplina = disciplinas.get(0);
+
+            Button btnRegistrarPresenca = (Button) findViewById(R.id.btnRegistrarPresenca);
+            TextView txtPresenca = (TextView) findViewById(R.id.txtPresenca);
+
+            txtPresenca.setVisibility(View.INVISIBLE);
+            btnRegistrarPresenca.setVisibility(View.INVISIBLE);
+        }
         return disciplina;
     }
 
