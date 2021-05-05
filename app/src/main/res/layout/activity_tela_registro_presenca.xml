@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
     <TextView
-        android:id="@+id/viewAula"
+        android:id="@+id/viewAulaTelaRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -17,8 +17,8 @@
         />
 
     <Spinner
-        android:id="@+id/spinner"
-        android:layout_below="@id/viewAula"
+        android:id="@+id/spinnerTelaRegistro"
+        android:layout_below="@id/viewAulaTelaRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -28,8 +28,8 @@
         />
 
     <TextView
-        android:id="@+id/viewLocalizacao"
-        android:layout_below="@id/spinner"
+        android:id="@+id/viewLocalizacaoTelaRegistro"
+        android:layout_below="@id/spinnerTelaRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -39,28 +39,28 @@
         android:textAlignment="center"
         />
 
-    <Button
-        android:id="@+id/btnRegistrarPresenca"
+    <TextView
+        android:id="@+id/txtPresencaTelaRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/viewLocalizacao"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/buttonshapebackground"
-        android:text="@string/btnRegisterPresenca"
-        android:textColor="@color/white"
-        android:visibility="visible" />
+        android:layout_below="@id/viewLocalizacaoTelaRegistro"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        />
+
+
     <Button
-        android:id="@+id/btnDesistir"
-        android:layout_below="@id/btnRegistrarPresenca"
+        android:id="@+id/btnSairTelaRegistro"
+        android:layout_below="@id/txtPresencaTelaRegistro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/buttonshapeborder"
-        android:text="@string/btnDesistir"
+        android:text="@string/btnSairTelaRegistro"
         />
 
 </RelativeLayout>

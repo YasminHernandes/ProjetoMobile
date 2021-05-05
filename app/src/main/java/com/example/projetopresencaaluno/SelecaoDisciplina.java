@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -52,7 +53,6 @@ public class SelecaoDisciplina extends FragmentActivity {
 
         TextView viewAula = (TextView) findViewById(R.id.viewAula);
         TextView viewLocalizacao = (TextView) findViewById(R.id.viewLocalizacao);
-        TextView txtPresenca = (TextView) findViewById(R.id.txtPresenca);
         Button btnRegistrarPresenca = (Button) findViewById(R.id.btnRegistrarPresenca);
         Button btnDesistir = (Button) findViewById(R.id.btnDesistir);
 
@@ -82,22 +82,22 @@ public class SelecaoDisciplina extends FragmentActivity {
         btnRegistrarPresenca.setOnClickListener(s -> {
             if(localizacaoValidaParaMarcarPresenca()) {
                 if(horarioValidoParaMarcarPresenca(ca, buscaDisciplinaHoje(disciplinas, ca.get(Calendar.DAY_OF_WEEK)))) {
-                    Log.i("Teste", "Marcou");
-                    btnRegistrarPresenca.setVisibility(View.INVISIBLE);
 
-                    txtPresenca.setText("Presença registra em ".concat(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())));
+                    Intent intent = new Intent(SelecaoDisciplina.this, TelaRegistroPresenca.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("descricaoPresenca", "Presença registrada em ".concat(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())));
+                    bundle.putString("descricaoDisciplina", spinner.getSelectedItem().toString());
+                    bundle.putString("descricaoAula", viewAula.getText().toString());
+                    bundle.putString("descricaoLocalizacao", viewLocalizacao.getText().toString());
+                    intent.putExtras(bundle);
 
-                    btnDesistir.setBackgroundResource(R.drawable.buttonshapebackground);
-                    btnDesistir.setTextColor(Color.parseColor("#ffffff"));
-                    btnDesistir.setText("Sair");
-
+                    startActivity(intent);
+                    finish();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Não está dentro do horario da disciplina",Toast.LENGTH_LONG).show();
-                    Log.i("Teste", "Não está dentro do horario da disciplina");
+                    Toast.makeText(getApplicationContext(), "Não está dentro do horário da disciplina",Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(getApplicationContext(), "Você nao está no lugar certo",Toast.LENGTH_LONG).show();
-                Log.i("Teste", "Você nao está no lugar certo");
+                Toast.makeText(getApplicationContext(), "Você não está no lugar certo",Toast.LENGTH_LONG).show();
 
             }
         });
@@ -106,8 +106,6 @@ public class SelecaoDisciplina extends FragmentActivity {
     public boolean localizacaoValidaParaMarcarPresenca() {
         Double latitudeUNICID = -23.536286105990403;
         Double longitudeUNICID = -46.560337171952156;
-        //Double latitudeUNICID = -23.536363333333334;
-        //Double longitudeUNICID = -46.56034666666667;
 
         return Objects.equals(latitude, latitudeUNICID) && Objects.equals(longitude, longitudeUNICID);
     }
@@ -128,16 +126,11 @@ public class SelecaoDisciplina extends FragmentActivity {
 
         try {
             disciplina = disciplinas.stream().filter(obj -> Objects.equals(obj.getDiaSemana(), diaHoje)).findFirst().get();
-            //disciplina = disciplinas.get(1);
         }catch(Exception e ) {
-            Log.i("Tela", "Nao tem aula");
             Toast.makeText(this, "Hoje não tem aula :)", Toast.LENGTH_LONG).show();
             disciplina = disciplinas.get(0);
 
             Button btnRegistrarPresenca = (Button) findViewById(R.id.btnRegistrarPresenca);
-            TextView txtPresenca = (TextView) findViewById(R.id.txtPresenca);
-
-            txtPresenca.setVisibility(View.INVISIBLE);
             btnRegistrarPresenca.setVisibility(View.INVISIBLE);
         }
         return disciplina;
@@ -161,9 +154,6 @@ public class SelecaoDisciplina extends FragmentActivity {
         }
 
         spinner.setEnabled(false);
-
-
-
     }
 
     public String[] toArrayVector(List<Disciplina> disciplinas) {
